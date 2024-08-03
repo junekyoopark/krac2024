@@ -55,10 +55,17 @@ class offboard_start(Node):
             qos_profile
         )
 
-        self.vtol_msg_sub = self.create_subscription(
+        self.vtol_msg_fw_sub = self.create_subscription(
             Bool,
-            '/vtol_message',
-            self.vtol_msg_callback,
+            '/vtol_message_fw',
+            self.vtol_msg_callback_fw,
+            qos_profile
+        )
+
+        self.vtol_msg_mc_sub = self.create_subscription(
+            Bool,
+            '/vtol_message_mc',
+            self.vtol_msg_callback_mc,
             qos_profile
         )
 
@@ -107,7 +114,8 @@ class offboard_start(Node):
         self.myCnt = 0
         self.arm_message = False
         self.failsafe = False
-        self.vtol_msg = False
+        self.vtol_msg_fw = False
+        self.vtol_msg_mc = False
 
         self.states = {
             "IDLE": self.state_init,
@@ -125,9 +133,13 @@ class offboard_start(Node):
         self.arm_message = msg.data
         self.get_logger().info(f"Arm message recieved as {self.arm_message}")
 
-    def vtol_msg_callback(self, msg):
-        self.vtol_msg = msg.data
-        self.get_logger().info("Transition message recieved")
+    def vtol_msg_callback_fw(self, msg):
+        self.vtol_msg_fw = msg.data
+        self.get_logger().info("Transition message recieved (fw)")
+
+    def vtol_msg_callback_mc(self, msg):
+        self.vtol_msg_mc = msg.data
+        self.get_logger().info("Transition message recieved (mc)")
     
     
     def arm_timer_callback(self):
@@ -216,6 +228,10 @@ class offboard_start(Node):
         self.publish_vehicle_command(VehicleCommand.VEHICLE_CMD_DO_VTOL_TRANSITION, 4.0)
         self.get_logger().info("VTOL transition imminent")
 
+    def vtol_MC(self):
+        self.publish_vehicle_command(VehicleCommand.VEHICLE_CMD_DO_VTOL_TRANSITION, 3.0)
+        self.get_logger().info("VTOL back to MC")
+
     
     # Commands
     def arm(self):
@@ -299,9 +315,12 @@ class offboard_start(Node):
             trajectory_msg.yaw = float('nan')
             trajectory_msg.yawspeed = self.yaw
             self.publisher_trajectory.publish(trajectory_msg)
-        if (self.vtol_msg):
+        if (self.vtol_msg_fw):
             self.vtol_is_a_go()
-            self.vtol_msg = False
+            self.vtol_msg_fw = False
+        if (self.vtol_msg_mc):
+            self.vtol_MC()
+            self.vtol_msg_mc = False
 
 def main(args=None):
     rclpy.init(args=args)

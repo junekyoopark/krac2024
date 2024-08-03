@@ -42,9 +42,15 @@ class MissionOne(Node):
             qos_profile
         )
 
-        self.vtol_publisher = self.create_publisher(
+        self.vtol_publisher_fw = self.create_publisher(
             Bool,
-            '/vtol_message',
+            '/vtol_message_fw',
+            qos_profile
+        )
+
+        self.vtol_publisher_mc = self.create_publisher(
+            Bool,
+            '/vtol_message_mc',
             qos_profile
         )
 
@@ -61,12 +67,13 @@ class MissionOne(Node):
 
         self.waypoints = [
             {'x': 0.0, 'y': 0.0, 'z': 8.0},
-            {'x': 0.0, 'y': -150.0, 'z': 8.0},
+            {'x': 0.0, 'y': -50.0, 'z': 8.0},
+            {'x': 80.0, 'y': 0.0, 'z': 4.0},
             {'x': 0.0, 'y': 0.0, 'z': 8.0}
         ]
 
         self.curr_way_index = 0
-        self.position_tolerance = 2
+        self.position_tolerance = 5
         self.vtol_count = 0
 
         time.sleep(5)
@@ -99,8 +106,14 @@ class MissionOne(Node):
     def arm_vtol(self, varm):
         vtol_hmg = Bool()
         vtol_hmg.data = varm
-        self.vtol_publisher.publish(vtol_hmg)
+        self.vtol_publisher_fw.publish(vtol_hmg)
         self.get_logger().info("Go VTOL")
+    
+    def arm_mc(self, marm):
+        vtol_mmg = Bool()
+        vtol_mmg.data = marm
+        self.vtol_publisher_mc.publish(vtol_mmg)
+        self.get_logger().info("Fuck. Go back")
 
     def navigate_waypoints(self):
         self.wp_timer = self.create_timer(0.01, self.navigate_waypoint_callback)
@@ -109,9 +122,18 @@ class MissionOne(Node):
         if self.curr_way_index < len(self.waypoints):
             target = self.waypoints[self.curr_way_index]
             if self.is_waypoint_reached(target):
+                if self.is_waypoint_reached(target) and self.curr_way_index == 1 and self.vtol_count == 1:
+                    self.arm_mc(True)
+                    self.vtol_count += 1
+                elif self.is_waypoint_reached(target) and self.curr_way_index == 2 and self.vtol_count == 3:
+                    self.arm_mc(True)
+                    self.vtol_count += 1
                 self.get_logger().info(f"Waypoint {self.curr_way_index} reached")
                 self.curr_way_index += 1
             elif (self.current_position['y'] < -10.0) and self.curr_way_index == 1 and self.vtol_count == 0:
+                self.arm_vtol(True)
+                self.vtol_count += 1
+            elif (self.current_position['x'] > 10) and self.curr_way_index == 2 and self.vtol_count == 2:
                 self.arm_vtol(True)
                 self.vtol_count += 1
             else:
@@ -135,7 +157,7 @@ class MissionOne(Node):
         twist.linear.y = kp * -error_y
         twist.linear.z = kp * error_z
 
-        max_speed = 5.0
+        max_speed = 1.0
         norm = math.sqrt(twist.linear.x**2 + twist.linear.y**2 + twist.linear.z**2)
         if norm > max_speed:
             twist.linear.x = (twist.linear.x / norm) * max_speed
