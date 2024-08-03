@@ -1,0 +1,30 @@
+[0.386s] Invoking command in '/home/joe/ysdrone_2024/src/mission_control': PYTHONPATH=/home/joe/ysdrone_2024/build/mission_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/mission_control build --build-base /home/joe/ysdrone_2024/build/mission_control/build install --record /home/joe/ysdrone_2024/build/mission_control/install.log --single-version-externally-managed install_data
+[0.546s] running egg_info
+[0.546s] writing ../../build/mission_control/mission_control.egg-info/PKG-INFO
+[0.547s] writing dependency_links to ../../build/mission_control/mission_control.egg-info/dependency_links.txt
+[0.547s] writing entry points to ../../build/mission_control/mission_control.egg-info/entry_points.txt
+[0.547s] writing requirements to ../../build/mission_control/mission_control.egg-info/requires.txt
+[0.547s] writing top-level names to ../../build/mission_control/mission_control.egg-info/top_level.txt
+[0.548s] reading manifest file '../../build/mission_control/mission_control.egg-info/SOURCES.txt'
+[0.548s] adding license file 'LICENSE'
+[0.548s] writing manifest file '../../build/mission_control/mission_control.egg-info/SOURCES.txt'
+[0.549s] running build
+[0.549s] running build_py
+[0.549s] copying mission_control/offboard_start.py -> /home/joe/ysdrone_2024/build/mission_control/build/lib/mission_control
+[0.549s] copying mission_control/mission1.py -> /home/joe/ysdrone_2024/build/mission_control/build/lib/mission_control
+[0.549s] running install
+[0.549s] running install_lib
+[0.550s] copying /home/joe/ysdrone_2024/build/mission_control/build/lib/mission_control/offboard_start.py -> /home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control
+[0.550s] copying /home/joe/ysdrone_2024/build/mission_control/build/lib/mission_control/mission1.py -> /home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control
+[0.550s] byte-compiling /home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control/offboard_start.py to offboard_start.cpython-310.pyc
+[0.552s] byte-compiling /home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control/mission1.py to mission1.cpython-310.pyc
+[0.553s] running install_data
+[0.553s] running install_egg_info
+[0.554s] removing '/home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control-0.0.0-py3.10.egg-info' (and everything under it)
+[0.554s] Copying ../../build/mission_control/mission_control.egg-info to /home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages/mission_control-0.0.0-py3.10.egg-info
+[0.555s] running install_scripts
+[0.567s] Installing mission1 script to /home/joe/ysdrone_2024/install/mission_control/lib/mission_control
+[0.567s] Installing offboard_start script to /home/joe/ysdrone_2024/install/mission_control/lib/mission_control
+[0.567s] Installing visualizer script to /home/joe/ysdrone_2024/install/mission_control/lib/mission_control
+[0.567s] writing list of installed files to '/home/joe/ysdrone_2024/build/mission_control/install.log'
+[0.580s] Invoked command in '/home/joe/ysdrone_2024/src/mission_control' returned '0': PYTHONPATH=/home/joe/ysdrone_2024/build/mission_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/joe/ysdrone_2024/install/mission_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/mission_control build --build-base /home/joe/ysdrone_2024/build/mission_control/build install --record /home/joe/ysdrone_2024/build/mission_control/install.log --single-version-externally-managed install_data
