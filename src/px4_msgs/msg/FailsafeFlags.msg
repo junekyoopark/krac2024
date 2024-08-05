@@ -55,3 +55,5 @@ bool fd_critical_failure              # Critical failure (attitude/altitude limi
 bool fd_esc_arming_failure            # ESC failed to arm
 bool fd_imbalanced_prop               # Imbalanced propeller detected
 bool fd_motor_failure                 # Motor failure
+
+
