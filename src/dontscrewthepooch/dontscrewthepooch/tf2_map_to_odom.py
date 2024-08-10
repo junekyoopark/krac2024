@@ -73,9 +73,9 @@ class OdometryTFBroadcaster(Node):
         # Fill in the velocity
         # Transform velocity from NED (PX4) to ENU (ROS2)
         if not any(nan in msg.velocity for nan in (float('nan'),)):
-            odom_msg.twist.twist.linear.x = float(msg.velocity[0]) # vy -> vx
-            odom_msg.twist.twist.linear.y = -float(msg.velocity[1]) # vx -> vy
-            odom_msg.twist.twist.linear.z = -float(msg.velocity[2]) # -vz -> vz
+            odom_msg.twist.twist.linear.x = float(msg.velocity[0])
+            odom_msg.twist.twist.linear.y = -float(msg.velocity[1])
+            odom_msg.twist.twist.linear.z = -float(msg.velocity[2])
 
         if not any(nan in msg.angular_velocity for nan in (float('nan'),)):
             odom_msg.twist.twist.angular.x = float(msg.angular_velocity[0])
