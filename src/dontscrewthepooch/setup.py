@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'tf2_map_to_odom = dontscrewthepooch.tf2_map_to_odom:main',
+            'goal_pose_to_traj_setpoint = dontscrewthepooch.goal_pose_to_traj_setpoint:main',
         ],
     },
 )
