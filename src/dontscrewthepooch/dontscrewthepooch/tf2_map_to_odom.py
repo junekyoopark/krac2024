@@ -30,6 +30,7 @@ class OdometryTFBroadcaster(Node):
         self.get_logger().info("Vehicle Odometry TF broadcaster and Odometry publisher have been started")
 
     def handle_vehicle_odometry(self, msg):
+        # Transform position from NED (PX4) to ENU (ROS2)
         t = TransformStamped()
 
         # Fill the TransformStamped data
@@ -39,14 +40,13 @@ class OdometryTFBroadcaster(Node):
         # Ensure to handle NaNs and set default values if necessary
         if not any(nan in msg.position for nan in (float('nan'),)):
             t.transform.translation.x = float(msg.position[0])
-            t.transform.translation.y = float(msg.position[1])
-            t.transform.translation.z = float(msg.position[2])
+            t.transform.translation.y = -float(msg.position[1])
+            t.transform.translation.z = -float(msg.position[2])
         if not any(nan in msg.q for nan in (float('nan'),)):
-            t.transform.rotation.x = float(msg.q[0])
-            t.transform.rotation.y = float(msg.q[1])
-            t.transform.rotation.z = float(msg.q[2])
-            t.transform.rotation.w = float(msg.q[3])
-
+            t.transform.rotation.x = float(msg.q[1])
+            t.transform.rotation.y = -float(msg.q[2])
+            t.transform.rotation.z = -float(msg.q[3])
+            t.transform.rotation.w = float(msg.q[0])
         # Broadcast the transform
         self.br.sendTransform(t)
 
@@ -71,10 +71,11 @@ class OdometryTFBroadcaster(Node):
         odom_msg.pose.covariance[35] = msg.orientation_variance[2]
 
         # Fill in the velocity
+        # Transform velocity from NED (PX4) to ENU (ROS2)
         if not any(nan in msg.velocity for nan in (float('nan'),)):
             odom_msg.twist.twist.linear.x = float(msg.velocity[0])
-            odom_msg.twist.twist.linear.y = float(msg.velocity[1])
-            odom_msg.twist.twist.linear.z = float(msg.velocity[2])
+            odom_msg.twist.twist.linear.y = -float(msg.velocity[1])
+            odom_msg.twist.twist.linear.z = -float(msg.velocity[2])
 
         if not any(nan in msg.angular_velocity for nan in (float('nan'),)):
             odom_msg.twist.twist.angular.x = float(msg.angular_velocity[0])

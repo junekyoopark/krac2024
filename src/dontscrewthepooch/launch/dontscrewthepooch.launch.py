@@ -52,6 +52,14 @@ def generate_launch_description():
                 ],
     )
 
+    goal_pose_to_traj_setpoint = Node(
+        package='dontscrewthepooch',
+        executable='goal_pose_to_traj_setpoint',
+        parameters=[
+                {'use_sim_time': True}
+                ],
+    )
+
     #CORE NAV2 ELEMENTS
 
     bringup_dir = get_package_share_directory('nav2_bringup')
@@ -81,5 +89,6 @@ def generate_launch_description():
 
     ld.add_action(tf2_map_to_odom)
     ld.add_action(navigation2_cmd)
+    # ld.add_action(goal_pose_to_traj_setpoint)
 
     return ld
